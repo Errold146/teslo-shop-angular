@@ -1,0 +1,17 @@
+<h1 class="text-3xl font-bold">
+    Todos los productos para
+    <span class="text-info">{{getGenderLabel(gender())}}</span>
+</h1>
+<h2 class="text-xl mb-5">Para {{getGenderLabel(gender()).toLowerCase()}} de buenos gustos.</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-6 gap-3">
+    <!-- Tarjeta -->
+    @for (product of productsResource.value()?.products; track $index) {
+        <product-card [product]="product" />
+
+    } @empty {
+        <p class="mt-10 text-center font-bold">No hay productos para mostrar</p>
+    }
+</div>
+
+

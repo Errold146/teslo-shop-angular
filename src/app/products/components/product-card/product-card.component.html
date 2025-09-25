@@ -1,0 +1,29 @@
+<div class="card bg-gray-800 shadow-2xl fade-in overflow-hidden">
+    <figure class="m-0 p-0">
+        <img
+            [ngSrc]="product().images | productImage"
+            [alt]="product().title"
+            width="10"
+            height="10"
+            priority
+            class="w-full h-auto rounded-t-lg object-cover"
+        />
+    </figure>
+    <div class="card-body">
+        <a
+            [routerLink]="['/product', product().slug]"
+            class="cursor-pointer hover:underline text-info"
+        >
+            <h2 class="card-title">
+                {{ product().title |slice: 0:20}}...
+            </h2>
+        </a>
+        <p>{{ product().description | slice: 0:60 }}...</p>
+        <div class="card-actions justify-end">
+            <a
+                [routerLink]="['/product', product().slug]"
+                class="btn btn-outline text-info"
+            >Ver Producto</a>
+        </div>
+    </div>
+</div>
