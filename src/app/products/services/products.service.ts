@@ -1,4 +1,4 @@
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
@@ -18,9 +18,17 @@ export class ProductsService {
 
     private http = inject(HttpClient)
 
+    private productsCache = new Map<string, ProductsResponse>()
+    private oneProductCache = new Map<string, Product>()
+
     getProducts(options: Options): Observable<ProductsResponse> {
 
         const { limit = 8, offset = 0, gender = ''} = options
+
+        const key = `${limit}-${offset}-${gender}`
+        if ( this.productsCache.has(key) ) {
+            return of(this.productsCache.get(key)!)
+        }
 
         return this.http.get<ProductsResponse>(`${ baseUrl }/products`, {
             params: {
@@ -29,12 +37,19 @@ export class ProductsService {
                 gender
             }
         }).pipe(
-            tap(res => console.log(res))
+            tap(res => this.productsCache.set(key, res))
         )
     }
 
     getProductByIdSlug(idSlug: string): Observable<Product> {
-        return this.http.get<Product>(`${baseUrl}/products/${idSlug}`)
+
+        if ( this.oneProductCache.has(idSlug) ) {
+            return of(this.oneProductCache.get(idSlug)!)
+        }
+
+        return this.http
+            .get<Product>(`${baseUrl}/products/${idSlug}`)
+            .pipe(tap(prod => this.oneProductCache.set(idSlug, prod)))
     }
 
 }

@@ -7,10 +7,10 @@
     "paths": {
         "@auth/*": ["./src/app/auth/*"],
         "@products/*": ["./src/app/products/*"],
-        "@/shared*": ["./src/app/shared/*"],
-        "@/store*": ["./src/app/store/*"],
-        "@/admin*": ["./src/app/admin/*"],
-        "@/utils*": ["./src/app/utils/*"]
+        "@shared/*": ["./src/app/shared/*"],
+        "@store/*": ["./src/app/store/*"],
+        "@admin/*": ["./src/app/admin/*"],
+        "@utils/*": ["./src/app/utils/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

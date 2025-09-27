@@ -1,0 +1,32 @@
+<div class="join flex items-center justify-center my-10">
+    <!-- Botón anterior -->
+    <button
+        class="join-item btn btn-ghost text-info"
+        (click)="prevPage()"
+        [disabled]="currentPage() === 1"
+    >
+        <!-- ícono izquierda -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 15v3.586a1 1 0 0 1-1.707.707l-6.586-6.586a1 1 0 0 1 0-1.414l6.586-6.586A1 1 0 0 1 12 5.414V9h3v6zm9 0V9m-3 6V9" />
+        </svg>
+    </button>
+
+    <!-- Página actual -->
+    <div class="join-item p-3 text-info">
+        Página {{ currentPage() }} de {{ pages() }}
+    </div>
+
+    <!-- Botón siguiente -->
+    <button
+        class="join-item btn btn-ghost text-info"
+        (click)="nextPage()"
+        [disabled]="currentPage() === pages()"
+    >
+        <!-- ícono derecha -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9V5.414a1 1 0 0 1 1.707-.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586A1 1 0 0 1 12 18.586V15H9V9zM3 9v6m3-6v6" />
+        </svg>
+    </button>
+</div>
