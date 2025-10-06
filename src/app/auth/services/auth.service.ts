@@ -32,6 +32,7 @@ export class AuthService {
 
     user = computed<User | null>(() => this._user())
     token = computed(() => this._token())
+    isAdmin = computed(() => this._user()?.roles.includes('admin') ?? false)
 
     login(email: string, password: string): Observable<boolean> {
         return this.http.post<AuthResponse>(`${baseUrl}/auth/login`, { email, password }).pipe(
@@ -44,17 +45,14 @@ export class AuthService {
         const token = localStorage.getItem('token')
         if ( !token ) return of(false);
 
-        return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).pipe(
+        return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`).pipe(
             map(res => this.handleAuthSuccess(res)),
             catchError((error: any) => this.handleAuthError(error))
         )
     }
 
-    logout() {-
+    logout() {
+        console.log('Logout triggered')
         this._user.set(null)
         this._token.set(null)
         this._authStatus.set('not-authenticated')
@@ -71,8 +69,9 @@ export class AuthService {
         return true
     }
 
-    private handleAuthError( err: any ) {
-        this.logout()
+    private handleAuthError(err: any) {
+        console.warn('Auth error:', err)
+        this._authStatus.set('not-authenticated')
         return of(false)
     }
 

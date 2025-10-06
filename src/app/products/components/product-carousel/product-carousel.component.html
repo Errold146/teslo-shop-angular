@@ -14,7 +14,11 @@
             }
         } @else {
             <div class="swiper-slide">
-                <p class="text-center">No hay imágenes disponibles.</p>
+                <img
+                    [src]="null | productImage"
+                    alt="No Imagen Producto"
+                     class="max-h-full min-w-full object-contain fade-in"
+                />
             </div>
         }
     </div>

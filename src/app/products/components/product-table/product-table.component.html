@@ -1,0 +1,72 @@
+<div class="overflow-x-auto">
+    <table class="table">
+        <!-- head -->
+        <thead>
+            <tr>
+                <th>
+                    <label>
+                        <input type="checkbox" class="checkbox" />
+                    </label>
+                </th>
+                <th>Título</th>
+                <th>Precio</th>
+                <th>Inventario</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- row -->
+            @for (prod of products(); track prod.id) {
+                <tr>
+                    <th>
+                        <label>
+                            <input type="checkbox" class="checkbox" />
+                        </label>
+                    </th>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="avatar">
+                                <div class="mask mask-squircle h-12 w-12">
+                                    <img
+                                        [src]="prod.images | productImage "
+                                        [alt]="prod.title"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <a
+                                    [routerLink]="['/admin/product', prod.id]"
+                                    class="font-bold hover:underline hover:text-info transition-colors duration-300"
+                                >{{prod.title}}</a>
+                                <div class="text-sm opacity-50">
+                                    {{prod.sizes.join(", ")}}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {{prod.price |currency}}
+                    </td>
+                    <td>
+                        @if (prod.stock <= 10) {
+                            <span class="badge badge-error">{{prod.stock}}</span>
+
+                        } @else if (prod.stock <= 20) {
+                            <span class="badge badge-warning">{{prod.stock}}</span>
+
+                        } @else {
+                            <span class="badge badge-success">{{prod.stock}}</span>
+
+                        }
+                    </td>
+                    <th>
+                        <a
+                            [routerLink]="['/admin/product', prod.id]"
+                            class="btn btn-ghost text-info btn-sm"
+                        >Detalles</a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

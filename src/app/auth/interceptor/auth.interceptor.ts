@@ -8,7 +8,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
     const token = inject(AuthService).token();
 
     const newReq = req.clone({
-        headers: req.headers.append('Authorization', `Bearer ${token}`),
+        headers: req.headers.set('Authorization', `Bearer ${token}`)
     });
 
     return next(newReq);

@@ -1,0 +1,175 @@
+<h1 class="text-3xl font-bold text-info mb-2">{{ product().title }}</h1>
+<p class="text-sm text-gray-500 mb-4">ID: {{ product().id }}</p>
+<div class="divider my-4"></div>
+
+<form
+    class="grid grid-cols-1 sm:grid-cols-2 gap-6"
+    [formGroup]="productForm"
+    (ngSubmit)="onSubmit()"
+>
+    <!-- 🧾 Datos generales -->
+    <div class="flex flex-col gap-4 bg-base-100 p-6 rounded-xl shadow-xl">
+        <h2 class="text-xl font-bold text-neutral-content">Datos generales</h2>
+
+        <label class="font-semibold">Título</label>
+        <input
+            type="text"
+            placeholder="Título"
+            class="input input-bordered w-full"
+            formControlName="title"
+            [class.border-red-500]="productForm.get('title')?.errors ?? false"
+        />
+        <error-label [control]="productForm.get('title')!" />
+
+        <label class="font-semibold">Slug</label>
+        <input
+            type="text"
+            placeholder="Slug"
+            class="input input-bordered w-full"
+            formControlName="slug"
+            [class.border-red-500]="productForm.get('slug')?.errors ?? false"
+        />
+        <error-label [control]="productForm.get('slug')!" />
+
+        <label class="font-semibold">Descripción</label>
+        <textarea
+            class="textarea textarea-bordered w-full"
+            placeholder="Descripción"
+            rows="5"
+            formControlName="description"
+            [class.border-red-500]="productForm.get('description')?.errors ?? false"
+        ></textarea>
+        <error-label [control]="productForm.get('description')!" />
+
+        <h2 class="text-lg font-bold text-neutral-content mt-4">Datos de venta</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Precio -->
+            <div class="flex flex-col gap-1">
+                <label class="font-semibold">Precio</label>
+                <input
+                    type="number"
+                    placeholder="Precio"
+                    class="input input-bordered w-full"
+                    formControlName="price"
+                    [class.border-red-500]="productForm.get('price')?.errors ?? false"
+                />
+                <error-label [control]="productForm.get('price')!" />
+            </div>
+
+            <!-- Inventario -->
+            <div class="flex flex-col gap-1">
+                <label class="font-semibold">Inventario</label>
+                <input
+                    type="number"
+                    placeholder="Inventario"
+                    class="input input-bordered w-full"
+                    formControlName="stock"
+                    [class.border-red-500]="productForm.get('stock')?.errors ?? false"
+                />
+                <error-label [control]="productForm.get('stock')!" />
+            </div>
+        </div>
+
+        <label class="font-semibold">Etiquetas</label>
+        <input
+            type="text"
+            placeholder="Tags (separados por coma)"
+            class="input input-bordered w-full"
+            formControlName="tags"
+            [class.border-red-500]="productForm.get('tags')?.errors ?? false"
+        />
+        <error-label [control]="productForm.get('tags')!" />
+
+        <!-- 🎯 Género -->
+        <label class="font-semibold">Género</label>
+        <div class="grid grid-cols-4 gap-2">
+            <button
+                type="button"
+                class="btn btn-sm btn-outline transition-colors duration-300"
+                [class.btn-primary]="productForm.value.gender === 'men'"
+                (click)="productForm.patchValue({ gender: 'men' })"
+            >Masculino</button>
+            <button
+                type="button"
+                class="btn btn-sm btn-outline transition-colors duration-300"
+                [class.btn-secondary]="productForm.value.gender === 'women'"
+                (click)="productForm.patchValue({ gender: 'women' })"
+            >Femenino</button>
+            <button
+                type="button"
+                class="btn btn-sm btn-outline transition-colors duration-300"
+                [class.btn-warning]="productForm.value.gender === 'unisex'"
+                (click)="productForm.patchValue({ gender: 'unisex' })"
+            >Unisex</button>
+            <button
+                type="button"
+                class="btn btn-sm btn-outline transition-colors duration-300"
+                [class.btn-info]="productForm.value.gender === 'kid'"
+                (click)="productForm.patchValue({ gender: 'kid' })"
+            >Niños</button>
+        </div>
+
+        <!-- 📏 Tallas -->
+        <label class="font-semibold">Tallas</label>
+        <div class="grid grid-cols-6 gap-2">
+            @for (size of sizes; track size) {
+                <button
+                    class="btn btn-sm btn-outline"
+                    type="button"
+                    (click)="onSizeChange(size)"
+                    [class.btn-success]="productForm.value.sizes?.includes(size)"
+                >{{ size }}</button>
+            }
+        </div>
+    </div>
+
+    <!-- 🖼️ Imágenes y acciones -->
+    <div class="flex flex-col gap-4 bg-base-100 p-6 rounded-xl shadow-xl">
+
+        <label class="font-semibold">Imagenes Actuales</label>
+        <product-carousel [images]="imagesToCarousel()" />
+
+        <label class="form-control w-full mt-4">
+            <span class="label-text mb-2 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><mask id="SVGeFLFObJy"><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M7 19h11c2.21 0 4 -1.79 4 -4c0 -2.21 -1.79 -4 -4 -4h-1v-1c0 -2.76 -2.24 -5 -5 -5c-2.42 0 -4.44 1.72 -4.9 4h-0.1c-2.76 0 -5 2.24 -5 5c0 2.76 2.24 5 5 5Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0"/><set fill="freeze" attributeName="opacity" begin="0.7s" to="0"/></path><g fill="#fff" stroke="none" opacity="0"><circle cx="12" cy="10" r="6"><animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite" values="12;11;12;13;12"/></circle><rect width="9" height="8" x="8" y="12"/><rect width="15" height="12" x="1" y="8" rx="6"><animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="1;0;1;2;1"/></rect><rect width="13" height="10" x="10" y="10" rx="5"><animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite" values="10;9;10;11;10"/></rect><set fill="freeze" attributeName="opacity" begin="0.7s" to="1"/></g><g fill="#000" fill-opacity="0" stroke="none"><circle cx="12" cy="10" r="4"><animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite" values="12;11;12;13;12"/></circle><rect width="9" height="6" x="8" y="12"/><rect width="11" height="8" x="3" y="10" rx="4"><animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="3;2;3;4;3"/></rect><rect width="9" height="6" x="12" y="12" rx="3"><animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite" values="12;11;12;13;12"/></rect><set fill="freeze" attributeName="fill-opacity" begin="0.7s" to="1"/></g><g fill="#fff" stroke="none"><path d="M10.5 16h3v0h-3z"><animate fill="freeze" attributeName="d" begin="0.7s" dur="0.2s" values="M10.5 16h3v0h-3z;M10.5 16h3v-4h-3z"/></path><path d="M8 13h8l-4 0z"><animate fill="freeze" attributeName="d" begin="0.9s" dur="0.1s" values="M8 13h8l-4 0z;M8 13h8l-4 -4z"/><animateMotion begin="1s" calcMode="linear" dur="1.5s" keyPoints="0;0.25;0.5;0.75;1" keyTimes="0;0.1;0.5;0.8;1" path="M0 0v-1v2z" repeatCount="indefinite"/></path></g></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#SVGeFLFObJy)"/></svg>
+                Subir una nueva imagen.
+            </span>
+            <input
+                type="file"
+                multiple
+                accept="image/*"
+                class="file-input file-input-bordered w-full"
+                (change)="onFilesChanged($event)"
+            />
+        </label>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+            @for (image of tempImages(); track image) {
+                <div class="w-full h-40 overflow-hidden rounded-md">
+                    <img
+                        [src]="image"
+                        alt="Imagen a subir"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+            }
+        </div>
+
+        <div class="flex justify-end mt-10">
+            <button class="btn btn-info text-white px-6" type="submit">
+                Guardar
+            </button>
+        </div>
+
+    </div>
+</form>
+
+@if (wasSaved()) {
+    <div class="alert alert-success fixed bottom-12 right-12 w-80 fade-in font-semibold">
+        <span class="flex flex-row items-center justify-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><mask id="SVGkzXYXbbR"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#SVGkzXYXbbR)"/></svg>
+            Acción Realizada Correctamente.
+        </span>
+    </div>
+}

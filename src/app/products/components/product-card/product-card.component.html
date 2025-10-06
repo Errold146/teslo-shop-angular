@@ -1,31 +1,25 @@
-<div
-    class="card bg-gray-800 shadow-2xl fade-in overflow-hidden border border-gray-700"
->
-    <figure class="m-0 p-0">
+<div class="card min-h-96 flex flex-col bg-gray-800 shadow-2xl border border-gray-700 overflow-hidden">
+    <figure class="h-96 overflow-hidden">
         <img
             [ngSrc]="product().images | productImage"
             [alt]="product().title"
             width="10"
             height="10"
             priority
-            class="w-full h-auto rounded-t-lg object-cover"
+            class="w-full h-full rounded-t-lg object-cover"
         />
     </figure>
-    <div class="card-body">
-        <a
-            [routerLink]="['/product', product().slug]"
-            class="cursor-pointer hover:underline text-info"
-        >
-            <h2 class="card-title">
-                {{ product().title |slice: 0:20}}...
-            </h2>
-        </a>
-        <p>{{ product().description | slice: 0:60 }}...</p>
+    <div class="card-body flex flex-col justify-between flex-grow">
+        <div>
+            <a [routerLink]="['/product', product().slug]" class="text-info hover:underline">
+                <h2 class="card-title">{{ product().title | slice:0:20 }}...</h2>
+            </a>
+            <p>{{ product().description | slice:0:60 }}...</p>
+        </div>
         <div class="card-actions justify-end">
-            <a
-                [routerLink]="['/product', product().slug]"
-                class="btn btn-outline text-info"
-            >Ver Producto</a>
+            <a [routerLink]="['/product', product().slug]" class="btn btn-outline text-info">
+                Ver Producto
+            </a>
         </div>
     </div>
 </div>
